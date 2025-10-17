@@ -37,23 +37,30 @@ public class WallpaperScraper {
 
             if (matcher.find()) {
                 String imagePageUrl = matcher.group(1);
-
                 String[] parts = imagePageUrl.split("/");
                 String imageId = parts[parts.length - 1];
                 System.out.println("ID de imagen encontrado: " + imageId);
 
-                String extension = ".jpg";
+                int blockStartIndex = htmlBody.lastIndexOf("<figure ", matcher.start());
 
-                if (htmlBody.contains("<span class=\"png\">")) {
-                    System.out.println("Se detectó una etiqueta PNG, se usará la extensión .png");
-                    extension = ".png";
+                if (blockStartIndex != -1) {
+                    int blockEndIndex = htmlBody.indexOf("</figure>", matcher.end());
+                    String firstImageBlockHtml = htmlBody.substring(blockStartIndex, blockEndIndex);
+
+                    String extension = ".jpg";
+                    if (firstImageBlockHtml.contains("<span class=\"png\">")) {
+                        System.out.println("Es una imagen PNG.");
+                        extension = ".png";
+                    } else {
+                        System.out.println("Es una imagen JPG.");
+                    }
+
+                    String firstTwoChars = imageId.substring(0, 2);
+                    String finalImageUrl = String.format("https://w.wallhaven.cc/full/%s/wallhaven-%s%s", firstTwoChars, imageId, extension);
+
+                    System.out.println("🎯URL final obtenida: " + finalImageUrl);
+                    return finalImageUrl;
                 }
-
-                String firstTwoChars = imageId.substring(0, 2);
-                String finalImageUrl = String.format("https://w.wallhaven.cc/full/%s/wallhaven-%s%s", firstTwoChars, imageId, extension);
-
-                System.out.println("🎯URL final obtenida: " + finalImageUrl);
-                return finalImageUrl;
             }
 
         } catch (Exception e) {
