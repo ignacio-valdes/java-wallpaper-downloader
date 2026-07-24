@@ -4,6 +4,7 @@
  */
 package searchwallpaper.proxy;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -89,11 +90,15 @@ public class WallpaperScraper {
                 }
             }
 
-        } catch (Exception e) {
-            // Si ocurre cualquier error, se informa en la consola.
-            System.out.println("--------------------------------------------------------------------");
-            System.err.println("No se puedo completar la búsqueda: " + e.getMessage());
-            e.printStackTrace();
+        } catch (IOException | InterruptedException e) {
+            if (e instanceof InterruptedException) {
+                Thread.currentThread().interrupt();
+            }
+            WallpaperErrorHandler.showError(
+                    "No se pudo completar la búsqueda en Wallhaven.cc.",
+                    "Error de búsqueda",
+                    "No se pudo completar la búsqueda en Wallhaven.cc. Revisa tu conexión e inténtalo de nuevo.",
+                    e);
         }
 
         // Si el código llega hasta aquí, significa que no se encontró ninguna imagen.

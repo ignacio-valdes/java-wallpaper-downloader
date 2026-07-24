@@ -16,6 +16,8 @@ public class SearchWallpaperProxy {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        System.out.println("Crédito: Imágenes provistas por Wallhaven.cc");
+
         // Crea un objeto Scanner para poder leer lo que el usuario escribe en la consola.
         Scanner scn = new Scanner(System.in);
 
@@ -45,7 +47,10 @@ public class SearchWallpaperProxy {
 
             // Si el scraper devolvió null, significa que no se encontró ninguna imagen.
             // Se muestra un mensaje de error al usuario.
-            System.out.println("No se pudo encontrar ninguna imagen.");
+            WallpaperErrorHandler.showInfo(
+                    "No se pudo encontrar ninguna imagen para la búsqueda ingresada.",
+                    "Sin resultados",
+                    "No se pudo encontrar ninguna imagen para la búsqueda ingresada.");
         }
 
         // Cierra el Scanner.
