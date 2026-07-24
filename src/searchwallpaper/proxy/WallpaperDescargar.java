@@ -73,7 +73,7 @@ public class WallpaperDescargar implements Wallpaper {
         // Verifica que la imagen se haya descargado correctamente.
         if (imagen != null) {
             System.out.println("Mostrando wallpaper descargado de wallhaven.cc");
-            displayService.show(imagen);
+            displayService.show(imagen, urlImagen);
         } else {
             // Si el objeto imagen es nulo, significa que la descarga falló.
             WallpaperErrorHandler.showInfo(
