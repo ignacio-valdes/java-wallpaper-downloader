@@ -17,31 +17,30 @@ El proyecto destaca por implementar el patrón de diseño **Proxy** para la carg
 
 ---
 
-## ¿Cómo Ejecutarlo?
+### ¿Cómo Ejecutarlo?
 
-Para ejecutar este proyecto, necesitas tener el **JDK (Java Development Kit) 11 o superior** instalado en tu sistema. El proyecto es puro Java y no requiere herramientas de construcción externas como Maven o Gradle.
+Para ejecutar este proyecto, necesitas tener el **JDK 21** y **Maven** instalados en tu sistema.
 
 1.  **Clona el repositorio:**
     ```bash
     git clone [https://github.com/ignacio-valdes/java-wallpaper-downloader.git](https://github.com/ignacio-valdes/java-wallpaper-downloader.git)
-    ```
-
-2.  **Navega a la carpeta del proyecto:**
-    ```bash
     cd java-wallpaper-downloader
     ```
 
-3.  **Crea el directorio de salida y compila el código:**
+2.  **Compila el proyecto y descarga dependencias:**
     ```bash
-    mkdir -p bin
-    javac -d bin src/searchwallpaper/proxy/*.java
+    mvn clean compile
     ```
 
-4.  **Ejecuta la aplicación:**
-    ```bash
-    java -cp bin searchwallpaper.proxy.SearchWallpaperProxy
-    ```
-    Al iniciar, la consola te pedirá que ingreses un término de búsqueda y luego desplegará la interfaz gráfica con el resultado.
+3.  **Ejecuta la aplicación:**
+    *   Para buscar de forma interactiva:
+        ```bash
+        mvn exec:java -Dexec.mainClass="searchwallpaper.proxy.SearchWallpaperProxy"
+        ```
+    *   Para buscar directamente desde la terminal (CLI):
+        ```bash
+        mvn exec:java -Dexec.mainClass="searchwallpaper.proxy.SearchWallpaperProxy" -Dexec.args="tu termino de busqueda"
+        ```
 
 ---
 

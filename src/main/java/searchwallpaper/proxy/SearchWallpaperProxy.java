@@ -18,23 +18,21 @@ public class SearchWallpaperProxy {
     public static void main(String[] args) {
         System.out.println("Crédito: Imágenes provistas por Wallhaven.cc");
 
-        // Crea un objeto Scanner para poder leer lo que el usuario escribe en la consola.
-        Scanner scn = new Scanner(System.in);
+        String imgName;
+        if (args != null && args.length > 0 && !args[0].isBlank()) {
+            imgName = args[0].trim();
+        } else {
+            // Crea un objeto Scanner para poder leer lo que el usuario escribe en la consola.
+            Scanner scn = new Scanner(System.in);
+            System.out.print("Ingresa el wallpaper que quieres buscar: ");
+            imgName = scn.nextLine().trim();
+            scn.close();
+        }
 
-        System.out.print("Ingresa el wallpaper que quieres buscar: ");
+        // Llama al cliente REST de Wallhaven para obtener la primera imagen.
+        String imagenUrl = WallpaperApiClient.findFirstWallpaper(imgName);
 
-        // Lee la línea completa que el usuario escribió y la guarda en la variable "imgName".
-        String imgName = scn.nextLine();
-
-        // Construye la URL de búsqueda para Wallhaven.
-        // Reemplaza los espacion en blanco (" ") con el simbolo "+" para que la URL sea válida.        
-        String url = "https://wallhaven.cc/search?q=" + imgName.replace(" ", "+");
-
-        // Llama al método estático Scraper para que analice la página web
-        // y devuelva la URL directa de la primera imagen encontrada.
-        String imagenUrl = WallpaperScraper.findFirstWallpaperOnWallhaven(url);
-
-        // Comprueba si el scraper realmente encontró una URL.
+        // Comprueba si el cliente de API realmente encontró una URL.
         if (imagenUrl != null) {
 
             //Crea una intancia del Proxy, pasándole la URL directa de la imagen.
@@ -45,16 +43,13 @@ public class SearchWallpaperProxy {
             imagen.mostrar();
         } else {
 
-            // Si el scraper devolvió null, significa que no se encontró ninguna imagen.
+            // Si la API devolvió null, significa que no se encontró ninguna imagen.
             // Se muestra un mensaje de error al usuario.
             WallpaperErrorHandler.showInfo(
                     "No se pudo encontrar ninguna imagen para la búsqueda ingresada.",
                     "Sin resultados",
                     "No se pudo encontrar ninguna imagen para la búsqueda ingresada.");
         }
-
-        // Cierra el Scanner.
-        scn.close();
 
     }
 

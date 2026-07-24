@@ -36,6 +36,8 @@ public class WallpaperSaveService {
             throw new IOException("No se pudo escribir la imagen en formato " + formatName + ".");
         }
 
+        applyWallpaperOnSystem(outputPath.toAbsolutePath().toString());
+
         return outputPath.toAbsolutePath().toString();
     }
 
@@ -50,5 +52,20 @@ public class WallpaperSaveService {
         }
 
         return ".png";
+    }
+
+    private void applyWallpaperOnSystem(String absolutePath) {
+        try {
+            // Comando para cambiar el fondo en GNOME (Ubuntu)
+            String uriPath = "file://" + absolutePath;
+            Runtime.getRuntime().exec(new String[]{
+                "gsettings", "set", "org.gnome.desktop.background", "picture-uri", uriPath
+            });
+            Runtime.getRuntime().exec(new String[]{
+                "gsettings", "set", "org.gnome.desktop.background", "picture-uri-dark", uriPath
+            });
+        } catch (IOException e) {
+            System.out.println("Aviso: No se pudo aplicar el fondo automáticamente. ¿Estás en un entorno GNOME?");
+        }
     }
 }
